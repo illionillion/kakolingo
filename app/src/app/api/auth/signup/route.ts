@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 /**
- * ユーザー登録
+ * サインアップ
  * @param request
  */
 export const POST = async (request: NextRequest) => {

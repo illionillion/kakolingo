@@ -6,7 +6,7 @@ import { comparePassword } from '@/lib/password';
 import { issueAccessToken } from '@/lib/token';
 
 /**
- * ログイン
+ * サインイン
  * @param request
  * @returns
  */
