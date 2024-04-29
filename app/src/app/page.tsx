@@ -11,6 +11,7 @@ export default function Home() {
 
   const checkToken = async () => {
     try {
+      setIsAuthenticating(true);
       const response = await fetch('/api/auth/verify', {
         method: 'POST',
         body: JSON.stringify({
