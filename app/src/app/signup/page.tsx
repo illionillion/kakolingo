@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const SignupPage: NextPage = () => {
   return <>
     <Container maxW='2xl' justifyContent='center' m='auto'>
-      <Heading textAlign='center'>新規登録</Heading>
+      <Heading textAlign='center'>サインアップ</Heading>
       <SignupForm/>
     </Container>
   </>;

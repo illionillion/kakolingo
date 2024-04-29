@@ -4,20 +4,20 @@ import { Button, FormControl, IconButton, Input, InputGroup, InputRightElement, 
 import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useContext, type FC } from 'react';
-import type { SubmitHandler} from 'react-hook-form';
+import { useContext, useEffect, type FC } from 'react';
+import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 type SignupData = {
-    userName: string;
-    displayName: string;
-    userEmail: string;
-    password: string;
-    confirmPassword: string;
+  userName: string;
+  displayName: string;
+  userEmail: string;
+  password: string;
+  confirmPassword: string;
 };
 export const SignupForm: FC = () => {
   const [passwordShow, { toggle: passwordShowToggle }] = useBoolean();
 
-  const { onLogin } = useContext(StateContext);
+  const { onSignin, userData } = useContext(StateContext);
 
   const notice = useNotice();
 
@@ -45,7 +45,7 @@ export const SignupForm: FC = () => {
       const token = response.headers.get('Authorization');
 
       if (response.ok && token) {
-        onLogin({
+        onSignin({
           userId: json?.userId,
           userName: json?.userName,
           token: token.replace('Bearer ', '').trim(),
@@ -73,6 +73,12 @@ export const SignupForm: FC = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (userData && Object.values(userData).every((v) => !!v === true)) {
+      router.push('/');
+    }
+  }, [userData]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -175,13 +181,10 @@ export const SignupForm: FC = () => {
             </InputRightElement>
           </InputGroup>
         </FormControl>
-
         <Button type='submit' m="auto" w="fit-content" isLoading={isSubmitting} colorScheme="primary" >
-                    登録
+          登録
         </Button>
-
         <UiLink as={Link} href="/signin" m="auto">サインインはこちら</UiLink>
-                
       </VStack>
     </form>
   );

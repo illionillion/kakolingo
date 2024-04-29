@@ -12,8 +12,8 @@ export interface StateContextType {
     userData: UserData | undefined;
     isAuthenticating: boolean;
     setIsAuthenticating: (bool: boolean) => void;
-    onLogin: (user: UserData) => void;
-    onLogout: () => Promise<void>;
+    onSignin: (user: UserData) => void;
+    onSignout: () => Promise<void>;
 }
 
 const KEY = 'kakolingo_user_data';
@@ -28,8 +28,8 @@ const defaultContext: StateContextType = {
   userData: defaultUserData,
   isAuthenticating: false,
   setIsAuthenticating: () => { },
-  onLogin: () => { },
-  onLogout: async () => { },
+  onSignin: () => { },
+  onSignout: async () => { },
 };
 
 export const StateContext = createContext<StateContextType>(defaultContext);
@@ -37,11 +37,11 @@ export const StateContext = createContext<StateContextType>(defaultContext);
 export const useStateContext = () => {
   const [value, setValue] = useState<UserData>(getLocalStorage());
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(true);
-  const onLogin: StateContextType['onLogin'] = (user) => {
+  const onSignin: StateContextType['onSignin'] = (user) => {
     setValue(user);
     setLocalStorage(user);
   };
-  const onLogout: StateContextType['onLogout'] = async () => {
+  const onSignout: StateContextType['onSignout'] = async () => {
     // ユーザーの情報を削除
     setValue({
       userId: undefined,
@@ -65,8 +65,8 @@ export const useStateContext = () => {
     userData: value,
     isAuthenticating: isAuthenticating,
     setIsAuthenticating: setIsAuthenticating,
-    onLogin,
-    onLogout,
+    onSignin,
+    onSignout,
   };
   return contextValue;
 };
