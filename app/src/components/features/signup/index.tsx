@@ -1,9 +1,10 @@
 'use client';
+import { StateContext } from '@/components/state/AuthContext';
 import { Button, FormControl, IconButton, Input, InputGroup, InputRightElement, Link as UiLink, VStack, useBoolean, useNotice } from '@yamada-ui/react';
 import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import type { FC } from 'react';
+import { useContext, type FC } from 'react';
 import type { SubmitHandler} from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 type SignupData = {
@@ -16,7 +17,7 @@ type SignupData = {
 export const SignupForm: FC = () => {
   const [passwordShow, { toggle: passwordShowToggle }] = useBoolean();
 
-  // const { onLogin, userData } = useContext(StateContext);
+  const { onLogin } = useContext(StateContext);
 
   const notice = useNotice();
 
@@ -25,7 +26,6 @@ export const SignupForm: FC = () => {
   const {
     register,
     handleSubmit,
-    watch,
     getValues,
     trigger,
     formState: { errors, isSubmitting },
@@ -45,11 +45,12 @@ export const SignupForm: FC = () => {
       const token = response.headers.get('Authorization');
 
       if (response.ok && token) {
-        //   onLogin({
-        //     userId: json?.userId,
-        //     userName: json?.userName,
-        //     token: token.replace('Bearer ', '').trim(),
-        //   });
+        onLogin({
+          userId: json?.userId,
+          userName: json?.userName,
+          token: token.replace('Bearer ', '').trim(),
+        });
+        router.push('/');
       } else {
         notice({
           title: 'エラー',
