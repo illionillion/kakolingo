@@ -43,12 +43,10 @@ export const POST = async (request: NextRequest) => {
         message: 'ユーザーが正常に登録されました。',
         userId: userId,
         userName: body.userName,
+        accessToken: accessToken
       },
       {
         status: 201,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
       }
     );
   } catch (error) {

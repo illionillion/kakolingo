@@ -41,17 +41,15 @@ export const SigninForm: FC = () => {
         body: JSON.stringify(data),
       });
       const json = await response.json();
-      const token = response.headers.get('Authorization');
-
-      if (response.status === 200 && token) {
+      if (response.status === 200) {
         /* 
-                    ログイン成功
-                    userIdとtokenをCookieかストレージに保存、カスタムフックで保持
-                */
+            ログイン成功
+            userIdとtokenをCookieかストレージに保存、カスタムフックで保持
+        */
         onSignin({
           userId: json?.userId,
           userName: json?.userName,
-          token: token.replace('Bearer ', '').trim(),
+          token: json?.accessToken
         });
       } else {
         notice({

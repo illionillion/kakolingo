@@ -42,13 +42,11 @@ export const SignupForm: FC = () => {
         body: JSON.stringify(data),
       });
       const json = await response.json();
-      const token = response.headers.get('Authorization');
-
-      if (response.ok && token) {
+      if (response.ok) {
         onSignin({
           userId: json?.userId,
           userName: json?.userName,
-          token: token.replace('Bearer ', '').trim(),
+          token: json?.accessToken
         });
         router.push('/');
       } else {

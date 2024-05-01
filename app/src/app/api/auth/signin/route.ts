@@ -45,12 +45,10 @@ export const POST = async (request: NextRequest) => {
             message: 'ログインに成功しました。',
             userId: user.user_id,
             userName: user.user_name,
+            accessToken: accessToken
           },
           {
             status: 200,
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
           }
         );
       } else {
