@@ -1,15 +1,13 @@
-'use client';
-
-import { StateContext } from '@/components/state/AuthContext';
+import { QuestionYears } from '@/components/features/question/question_years';
 import { AuthProvider } from '@/components/state/AuthProvider';
-import { Button } from '@yamada-ui/react';
-import { useContext } from 'react';
+import { getQuestionsYears } from '@/lib/question';
 
-export default function Home() {
-  const { onSignout, isAuthenticating } = useContext(StateContext);
+export default async function Home() {
+  const questions_years = await getQuestionsYears();
+
   return (
     <AuthProvider>
-      {isAuthenticating ? '認証中' : <Button onClick={onSignout}>Logout</Button>}
+      <QuestionYears questions_years={questions_years} />
     </AuthProvider>
   );
 }
