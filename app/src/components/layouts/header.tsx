@@ -4,7 +4,7 @@ import type { FC } from 'react';
 import { HeaderProfile } from './header-profile';
 
 export const Header: FC = () => {
-  return <HStack as="header" bgColor="#d9d9d9" p="md" justifyContent="space-between">
+  return <HStack as="header" bgColor="#d9d9d9" p="md" justifyContent="space-between" position="sticky" top={0} zIndex="9999">
     <HStack>
       <Link href="/">
         <Image src='/favicon.ico' w="32px" h="32px" />
