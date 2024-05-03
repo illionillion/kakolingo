@@ -5,7 +5,7 @@ import { Box, Button, Center, Checkbox, CheckboxGroup, Container, HStack, Headin
 import type { FC } from 'react';
 import { useContext, useEffect, useState } from 'react';
 
-type QuestionYearsProps = {
+type QuestionSelectProps = {
     questions_years: Awaited<ReturnType<typeof getQuestionsYears>>
 }
 
@@ -20,7 +20,7 @@ const radioData = [
   }
 ];
 
-export const QuestionYears: FC<QuestionYearsProps> = ({ questions_years }) => {
+export const QuestionSelect: FC<QuestionSelectProps> = ({ questions_years }) => {
 
   const { isAuthenticating } = useContext(StateContext);
 
@@ -55,6 +55,21 @@ export const QuestionYears: FC<QuestionYearsProps> = ({ questions_years }) => {
       setQuestionLength(totalQuestions);
     }
   };
+
+  const handleStart = async () => {
+    console.log(selectedValues, type, questionLength);
+    // ここで問題の取得？
+    const response = await fetch('/api/questions', {
+      body: JSON.stringify({
+        years: selectedValues,
+        type: type,
+        length: questionLength
+      }),
+      method: "POST"
+    })
+    const json = await response.json()
+    console.log(json);    
+  }
 
   useEffect(() => {
     console.log(selectedValues);
@@ -92,7 +107,7 @@ export const QuestionYears: FC<QuestionYearsProps> = ({ questions_years }) => {
           </HStack>
         </HStack>
         <Center>
-          <Button colorScheme='success' isDisabled={selectedValues.length === 0 || questionLength === 0}>出題開始</Button>
+          <Button colorScheme='success' isDisabled={selectedValues.length === 0 || questionLength === 0} onClick={handleStart}>出題開始</Button>
         </Center>
       </Container>
       }
