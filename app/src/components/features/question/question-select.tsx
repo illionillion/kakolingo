@@ -123,7 +123,7 @@ const CustomCheckbox: FC<{ createdYearJp: string; season: string; questionYearId
   return <Checkbox position="relative" overflow="hidden" w="36" m="sm" p="sm" border="1px solid black" borderRadius="md" value={`${questionYearId}`} isDisabled={!questionCount} onPointerDown={onPointerDown}>
     <Box>
       {`${createdYearJp} ${season}`}
-      <Ripple {...rippleProps} />
+      <Ripple {...rippleProps} isDisabled={!questionCount} />
     </Box>
   </Checkbox>;
 };
