@@ -63,7 +63,7 @@ export const QuestionSelect: FC<QuestionSelectProps> = ({ questions_years }) => 
       body: JSON.stringify({
         years: selectedValues,
         type: type,
-        length: questionLength
+        limit: questionLength
       }),
       method: 'POST'
     });

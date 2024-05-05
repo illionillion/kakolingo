@@ -35,7 +35,7 @@ export const getQuestionsYears = async () => {
       createdYearJp: questionYear.created_year_jp,
       createdYear: questionYear.created_year,
       season: questionYear.season,
-      questionsCount: questionYear.past_questions_count
+      questionsCount: questionYear.past_questions_count,
     }));
 
     return questionsYears;
@@ -47,7 +47,11 @@ export const getQuestionsYears = async () => {
   }
 };
 
-export const getQuestions = async (years: string[], type: string) => {
+export const getQuestions = async (
+  years: string[],
+  type: string,
+  limit: number,
+) => {
   let connection;
   try {
     connection = await mysql_connection();
@@ -63,14 +67,36 @@ export const getQuestions = async (years: string[], type: string) => {
     past_questions
   WHERE question_year_id IN (`;
     years.forEach((_, i) => {
-      query += (i === (years.length - 1)) ? '?)' : '?, ';
+      query += i === years.length - 1 ? '?) ' : '?, ';
     });
     if (type === 'random') {
       query += 'ORDER BY RAND()';
     }
-    const [result] = (await connection.execute(query, [...years])) as RowDataPacket[];
+    
+    const [result] = (await connection.execute(
+      query,
+      years,
+    )) as RowDataPacket[];
 
-    return result;
+    const questions = (result as {
+      question_id: number;
+      question_content: string;
+      question_genre: string;
+      question_number: number;
+      question_url: string;
+      question_year_id: number;
+      correct_option_key: string;
+    }[]).map(question => ({
+      questionId: question.question_id,
+      questionContent: question.question_content,
+      questionGenre: question.question_genre,
+      questionNumber: question.question_number,
+      questionUrl: question.question_url,
+      questionYearId: question.question_year_id,
+      correctOptionKey: question.correct_option_key
+    }));
+
+    return limit > 0 ? questions.slice(0, limit) : questions;
   } catch (error) {
     console.error('GetQuestions error:', error);
     return [];
