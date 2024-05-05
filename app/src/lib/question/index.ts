@@ -47,7 +47,7 @@ export const getQuestionsYears = async () => {
   }
 };
 
-export const getQuestions = async (years: string[]) => {
+export const getQuestions = async (years: string[], type: string) => {
   let connection;
   try {
     connection = await mysql_connection();
@@ -63,8 +63,11 @@ export const getQuestions = async (years: string[]) => {
     past_questions
   WHERE question_year_id IN (`;
     years.forEach((_, i) => {
-      query += (i === (years.length - 1)) ? "?)" : "?, "
-    })
+      query += (i === (years.length - 1)) ? '?)' : '?, ';
+    });
+    if (type === 'random') {
+      query += 'ORDER BY RAND()';
+    }
     const [result] = (await connection.execute(query, [...years])) as RowDataPacket[];
 
     return result;
@@ -74,4 +77,4 @@ export const getQuestions = async (years: string[]) => {
   } finally {
     if (connection) connection.destroy();
   }
-}
+};

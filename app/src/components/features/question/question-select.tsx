@@ -65,11 +65,11 @@ export const QuestionSelect: FC<QuestionSelectProps> = ({ questions_years }) => 
         type: type,
         length: questionLength
       }),
-      method: "POST"
-    })
-    const json = await response.json()
+      method: 'POST'
+    });
+    const json = await response.json();
     console.log(json);    
-  }
+  };
 
   useEffect(() => {
     console.log(selectedValues);
