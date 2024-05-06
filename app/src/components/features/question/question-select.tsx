@@ -1,9 +1,10 @@
 'use client';
 import { StateContext } from '@/components/state/AuthContext';
-import type { getQuestionsYears } from '@/lib/question';
+import { QuestionContext } from '@/components/state/QuestionContext';
+import type { getQuestions, getQuestionsYears } from '@/lib/question';
 import { Box, Button, Center, Checkbox, CheckboxGroup, Container, HStack, Heading, Loading, NumberInput, Radio, RadioGroup, Ripple, Text, useRipple } from '@yamada-ui/react';
 import type { FC } from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
 type QuestionSelectProps = {
     questions_years: Awaited<ReturnType<typeof getQuestionsYears>>
@@ -23,6 +24,7 @@ const radioData = [
 export const QuestionSelect: FC<QuestionSelectProps> = ({ questions_years }) => {
 
   const { isAuthenticating } = useContext(StateContext);
+  const { setCurrentState, setQuestions, setQuestionsYears } = useContext(QuestionContext);
 
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [type, setType] = useState<string>('sequential');
@@ -38,8 +40,6 @@ export const QuestionSelect: FC<QuestionSelectProps> = ({ questions_years }) => 
           newCount += v.questionsCount;
         }
       });
-      console.log(newCount);
-      
       setQuestionLength(newCount);
       return;
     }
@@ -68,18 +68,12 @@ export const QuestionSelect: FC<QuestionSelectProps> = ({ questions_years }) => 
       method: 'POST'
     });
     const json = await response.json();
-    console.log(json);    
+    const { questions } = json as { questions: Awaited<ReturnType<typeof getQuestions>> };
+    setQuestions(questions);
+    setQuestionsYears(questions_years.filter(i => selectedValues.includes(i.questionYearId.toString())));
+    setCurrentState('question');
   };
 
-  useEffect(() => {
-    console.log(selectedValues);
-  }, [selectedValues]);
-  useEffect(() => {
-    console.log(type);
-  }, [type]);
-  useEffect(() => {
-    console.log(questionLength);
-  }, [questionLength]);
   return (
     <>
       {isAuthenticating ? <Center w="100vw" h="100dvh">

@@ -1,5 +1,6 @@
-import { QuestionSelect } from '@/components/features/question/question-select';
+import { Question } from '@/components/features/question';
 import { AuthProvider } from '@/components/state/AuthProvider';
+import { QuestionProvider } from '@/components/state/QuestionContext';
 import { getQuestionsYears } from '@/lib/question';
 
 export default async function Home() {
@@ -7,7 +8,9 @@ export default async function Home() {
 
   return (
     <AuthProvider>
-      <QuestionSelect questions_years={questions_years} />
+      <QuestionProvider>
+        <Question questions_years={questions_years} />
+      </QuestionProvider>
     </AuthProvider>
   );
 }
