@@ -78,7 +78,7 @@ export const QuestionSelect: FC<QuestionSelectProps> = ({ questions_years }) => 
     <>
       {isAuthenticating ? <Center w="100vw" h="100dvh">
         <Loading size="5xl" />
-      </Center> : <Container>
+      </Center> : <Container maxW="8xl" m="auto">
         <Heading m="auto">問題選択</Heading>
         <CheckboxGroup value={selectedValues} flexDir="row" flexWrap="wrap" onChange={handleChange}>
           {questions_years.map((question_year, index) => (
