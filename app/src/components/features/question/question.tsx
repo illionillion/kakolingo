@@ -1,6 +1,7 @@
 import { QuestionContext } from '@/components/state/QuestionContext';
-import { Button, Center, Container, HStack, Text, VStack } from '@yamada-ui/react';
-import type { FC} from 'react';
+import { getOptions } from '@/lib/question';
+import { Button, Center, Container, HStack, Text, VStack, useAsync } from '@yamada-ui/react';
+import type { FC } from 'react';
 import { useContext, useState } from 'react';
 
 export const Question: FC = () => {
@@ -8,28 +9,37 @@ export const Question: FC = () => {
   const { questions, questionsYears } = useContext(QuestionContext);
   const currentQuestion = questions[currentIndex];
   const currentQuestionYear = questionsYears.find(v => v.questionYearId === currentQuestion.questionYearId);
+  const [options, setOptions] = useState<Awaited<ReturnType<typeof getOptions>>>([])
+
+  const fetchOptions = async () => {
+    const response = await fetch(`/api/questions/${currentQuestion.questionId}`)
+    const json = await response.json() as { data: typeof options }
+    const { data } = json
+    setOptions(data)
+  }
+
+  const handleAnswer = (selectOptionsKey: string) => {
+    if (selectOptionsKey === currentQuestion.correctOptionKey) {
+      console.log('正解')
+    } else {
+      console.log('間違い')
+    }
+  }
+
+  useAsync(fetchOptions, [currentIndex])
+
   return <Container maxW="8xl" m="auto">
     <VStack>
       <Text fontSize="xl">第{currentIndex + 1}問</Text>
       <Text fontSize="md">{currentQuestion.questionContent}</Text>
       <Text textAlign="right">{`${currentQuestionYear?.createdYearJp}${currentQuestionYear?.season ? `${currentQuestionYear?.season}期` : ''} ${currentQuestion.questionNumber}問`}</Text>
       <Center justifyContent="space-around" gap="md" flexWrap="wrap">
-        <HStack>
-          <Button>ア</Button>
-          <Text>10</Text>
-        </HStack>
-        <HStack>
-          <Button>ア</Button>
-          <Text>10</Text>
-        </HStack>
-        <HStack>
-          <Button>ア</Button>
-          <Text>10</Text>
-        </HStack>
-        <HStack>
-          <Button>ア</Button>
-          <Text>10</Text>
-        </HStack>
+        {options.map((option, index) => (
+          <HStack key={index}>
+            <Button onClick={() => handleAnswer(option.optionKey)}>{option.optionKey}</Button>
+            <Text>{option.optionContent}</Text>
+          </HStack>
+        ))}
       </Center>
     </VStack>
     <VStack>
