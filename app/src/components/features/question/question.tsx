@@ -1,5 +1,5 @@
 import { QuestionContext } from '@/components/state/QuestionContext';
-import { getOptions } from '@/lib/question';
+import type { getOptions } from '@/lib/question';
 import { Button, Center, Container, HStack, Text, VStack, useAsync } from '@yamada-ui/react';
 import type { FC } from 'react';
 import { useContext, useState } from 'react';
@@ -9,24 +9,24 @@ export const Question: FC = () => {
   const { questions, questionsYears } = useContext(QuestionContext);
   const currentQuestion = questions[currentIndex];
   const currentQuestionYear = questionsYears.find(v => v.questionYearId === currentQuestion.questionYearId);
-  const [options, setOptions] = useState<Awaited<ReturnType<typeof getOptions>>>([])
+  const [options, setOptions] = useState<Awaited<ReturnType<typeof getOptions>>>([]);
 
   const fetchOptions = async () => {
-    const response = await fetch(`/api/questions/${currentQuestion.questionId}`)
-    const json = await response.json() as { data: typeof options }
-    const { data } = json
-    setOptions(data)
-  }
+    const response = await fetch(`/api/questions/${currentQuestion.questionId}`);
+    const json = await response.json() as { data: typeof options };
+    const { data } = json;
+    setOptions(data);
+  };
 
   const handleAnswer = (selectOptionsKey: string) => {
     if (selectOptionsKey === currentQuestion.correctOptionKey) {
-      console.log('正解')
+      console.log('正解');
     } else {
-      console.log('間違い')
+      console.log('間違い');
     }
-  }
+  };
 
-  useAsync(fetchOptions, [currentIndex])
+  useAsync(fetchOptions, [currentIndex]);
 
   return <Container maxW="8xl" m="auto">
     <VStack>

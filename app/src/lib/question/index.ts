@@ -135,7 +135,7 @@ export const getOptions = async (questionId: number) => {
       questionId: option.question_id
     }));
 
-    return options
+    return options;
   } catch (error) {
     console.error('GetOptions error', error);
 
