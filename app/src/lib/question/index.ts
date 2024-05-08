@@ -78,25 +78,28 @@ export const getQuestions = async (
       years,
     )) as RowDataPacket[];
 
-    const questions = (
-      result as {
-        question_id: number;
-        question_content: string;
-        question_genre: string;
-        question_number: number;
-        question_url: string;
-        question_year_id: number;
-        correct_option_key: string;
-      }[]
-    ).map((question) => ({
-      questionId: question.question_id,
-      questionContent: question.question_content,
-      questionGenre: question.question_genre,
-      questionNumber: question.question_number,
-      questionUrl: question.question_url,
-      questionYearId: question.question_year_id,
-      correctOptionKey: question.correct_option_key,
-    }));
+    const questions = await Promise.all(
+      (
+        result as {
+          question_id: number;
+          question_content: string;
+          question_genre: string;
+          question_number: number;
+          question_url: string;
+          question_year_id: number;
+          correct_option_key: string;
+        }[]
+      ).map(async (question) => ({
+        questionId: question.question_id,
+        questionContent: question.question_content,
+        questionGenre: question.question_genre,
+        questionNumber: question.question_number,
+        questionUrl: question.question_url,
+        questionYearId: question.question_year_id,
+        correctOptionKey: question.correct_option_key,
+        options: await getOptions(question.question_id),
+      })),
+    );
 
     return limit > 0 ? questions.slice(0, limit) : questions;
   } catch (error) {
@@ -120,7 +123,9 @@ export const getOptions = async (questionId: number) => {
     question_options
   WHERE
     question_id = ?`;
-    const [result] = (await connection.execute(query, [questionId])) as RowDataPacket[];
+    const [result] = (await connection.execute(query, [
+      questionId,
+    ])) as RowDataPacket[];
     const options = (
       result as {
         option_id: number;
@@ -132,7 +137,7 @@ export const getOptions = async (questionId: number) => {
       optionId: option.option_id,
       optionContent: option.option_content,
       optionKey: option.option_key,
-      questionId: option.question_id
+      questionId: option.question_id,
     }));
 
     return options;
