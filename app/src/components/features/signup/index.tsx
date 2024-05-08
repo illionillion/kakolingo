@@ -53,7 +53,7 @@ export const SignupForm: FC = () => {
         notice({
           title: 'エラー',
           description: json.message,
-          placement: 'top-right',
+          placement: 'bottom-right',
           status: 'error',
           variant: 'top-accent',
           isClosable: true,
@@ -64,7 +64,7 @@ export const SignupForm: FC = () => {
       notice({
         title: 'エラー',
         description: (error as any).message,
-        placement: 'top-right',
+        placement: 'bottom-right',
         status: 'error',
         variant: 'top-accent',
         isClosable: true,
