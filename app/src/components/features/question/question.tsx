@@ -39,8 +39,8 @@ export const Question: FC = () => {
       <Text textAlign="right">{`${currentQuestionYear?.createdYearJp}${currentQuestionYear?.season ? `${currentQuestionYear?.season}期` : ''} ${currentQuestion.questionNumber}問`}</Text>
       <Center justifyContent="space-around" gap="md" flexWrap="wrap">
         {options.map((option, index) => (
-          <HStack key={index}>
-            <Button isDisabled={isShowAnswer} onClick={() => handleAnswer(option.optionKey)}>{option.optionKey}</Button>
+          <HStack key={index} flexGrow={1}>
+            <Button onClick={() => !isShowAnswer && handleAnswer(option.optionKey)}>{option.optionKey}</Button>
             <Text>{option.optionContent}</Text>
           </HStack>
         ))}
