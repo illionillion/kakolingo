@@ -1,21 +1,29 @@
 import { QuestionContext } from '@/components/state/QuestionContext';
-import { Button, Center, Container, HStack, Text, VStack } from '@yamada-ui/react';
+import { Button, Center, Container, HStack, Link, Text, VStack, useBoolean } from '@yamada-ui/react';
 import type { FC } from 'react';
 import { useContext, useState } from 'react';
 
 export const Question: FC = () => {
   const [currentIndex] = useState<number>(0);
-  const { questions, questionsYears } = useContext(QuestionContext);
+  const { questions, questionsYears, questionsResults, setQuestionsResults } = useContext(QuestionContext);
   const currentQuestion = questions[currentIndex];
   const currentQuestionYear = questionsYears.find(v => v.questionYearId === currentQuestion.questionYearId);
   const options = currentQuestion.options;
-
+  const [isShowAnswer, { on: showAnswer }] = useBoolean();
+  const [isCorrect, { on: correct, off: invalid }] = useBoolean();
+  const handleShowAnswer = () => {
+    showAnswer();
+    setQuestionsResults([...questionsResults, { isCorrected: false, selectedKey: '' }]);
+  };
   const handleAnswer = (selectOptionsKey: string) => {
     if (selectOptionsKey === currentQuestion.correctOptionKey) {
-      console.log('正解');
+      correct();
+      setQuestionsResults([...questionsResults, { isCorrected: true, selectedKey: selectOptionsKey }]);
     } else {
-      console.log('間違い');
+      invalid();
+      setQuestionsResults([...questionsResults, { isCorrected: false, selectedKey: selectOptionsKey }]);
     }
+    showAnswer();
   };
 
   return <Container maxW="8xl" m="auto">
@@ -26,7 +34,7 @@ export const Question: FC = () => {
       <Center justifyContent="space-around" gap="md" flexWrap="wrap">
         {options.map((option, index) => (
           <HStack key={index}>
-            <Button onClick={() => handleAnswer(option.optionKey)}>{option.optionKey}</Button>
+            <Button isDisabled={isShowAnswer} onClick={() => handleAnswer(option.optionKey)}>{option.optionKey}</Button>
             <Text>{option.optionContent}</Text>
           </HStack>
         ))}
@@ -37,8 +45,24 @@ export const Question: FC = () => {
       <Text fontSize="md">{currentQuestion.questionGenre}</Text>
     </VStack>
     <VStack>
-      <Text fontSize="xl">正解</Text>
-      <Button w="fit-content">正解を表示する</Button>
+      {!isShowAnswer ?
+        <>
+          <Text fontSize="xl">正解</Text>
+          <Button w="fit-content" onClick={handleShowAnswer}>正解を表示する</Button>
+        </>
+        :
+        <>
+          <Text fontSize="xl">答え</Text>
+          <HStack>
+            <Text fontSize="md">{currentQuestion.correctOptionKey}</Text>
+            <Text fontSize="md" color={isCorrect ? 'success' : 'danger'}>{isCorrect ? '正解' : '不正解'}</Text>
+          </HStack>
+          <Text fontSize="md">あなたの解答：{questionsResults[currentIndex].selectedKey ? questionsResults[currentIndex].selectedKey : '-'}</Text>
+          <Text fontSize="md">
+            <Link isExternal href={currentQuestion.questionUrl}>解説を見る</Link>
+          </Text>
+        </>
+      }
     </VStack>
   </Container>;
 };
