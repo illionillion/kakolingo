@@ -1,13 +1,13 @@
-import { AuthProvider } from "@/components/state/AuthProvider";
-import { Box } from "@yamada-ui/react";
-import { NextPage } from "next";
+import { AuthProvider } from '@/components/state/AuthProvider';
+import { Box } from '@yamada-ui/react';
+import type { NextPage } from 'next';
 
 const Setting:NextPage=()=>{
-    return<AuthProvider>
-        <Box color={"red.400"}>セッティング画面 box test</Box>
+  return<AuthProvider>
+    <Box color="red.400">セッティング画面 box test</Box>
 
-    </AuthProvider>
-} 
+  </AuthProvider>;
+}; 
 
-export default Setting
+export default Setting;
 
