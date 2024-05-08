@@ -4,15 +4,16 @@ import type { FC } from 'react';
 import { useContext, useState } from 'react';
 
 export const Question: FC = () => {
-  const [currentIndex] = useState<number>(0);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const { questions, questionsYears, questionsResults, setQuestionsResults } = useContext(QuestionContext);
   const currentQuestion = questions[currentIndex];
   const currentQuestionYear = questionsYears.find(v => v.questionYearId === currentQuestion.questionYearId);
   const options = currentQuestion.options;
-  const [isShowAnswer, { on: showAnswer }] = useBoolean();
+  const [isShowAnswer, { on: showAnswer, off: hideAnswer }] = useBoolean();
   const [isCorrect, { on: correct, off: invalid }] = useBoolean();
   const handleShowAnswer = () => {
     showAnswer();
+    invalid();
     setQuestionsResults([...questionsResults, { isCorrected: false, selectedKey: '' }]);
   };
   const handleAnswer = (selectOptionsKey: string) => {
@@ -25,6 +26,11 @@ export const Question: FC = () => {
     }
     showAnswer();
   };
+
+  const handleNext = () => {
+    setCurrentIndex(prev => prev + 1)
+    hideAnswer()
+  }
 
   return <Container maxW="8xl" m="auto">
     <VStack>
@@ -64,5 +70,12 @@ export const Question: FC = () => {
         </>
       }
     </VStack>
+    {isShowAnswer && <Center>
+      {
+        currentIndex + 1 < questions.length ?
+          <Button onClick={handleNext}>次の問題を解く</Button> :
+          <Button>終了</Button>
+      }
+    </Center>}
   </Container>;
 };
