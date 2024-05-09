@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 
 export const Question: FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const { questions, questionsYears, questionsResults, setQuestionsResults } = useContext(QuestionContext);
+  const { questions, questionsYears, questionsResults, setQuestionsResults, setCurrentState } = useContext(QuestionContext);
   const currentQuestion = questions[currentIndex];
   const currentQuestionYear = questionsYears.find(v => v.questionYearId === currentQuestion.questionYearId);
   const options = currentQuestion.options;
@@ -28,9 +28,13 @@ export const Question: FC = () => {
   };
 
   const handleNext = () => {
-    setCurrentIndex(prev => prev + 1)
-    hideAnswer()
-  }
+    setCurrentIndex(prev => prev + 1);
+    hideAnswer();
+  };
+
+  const handleEnd = () => {
+    setCurrentState('finish');
+  };
 
   return <Container maxW="8xl" m="auto">
     <VStack>
@@ -74,7 +78,7 @@ export const Question: FC = () => {
       {
         currentIndex + 1 < questions.length ?
           <Button onClick={handleNext}>次の問題を解く</Button> :
-          <Button>終了</Button>
+          <Button onClick={handleEnd}>終了</Button>
       }
     </Center>}
   </Container>;
