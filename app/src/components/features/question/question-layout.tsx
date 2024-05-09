@@ -5,6 +5,7 @@ import type { FC } from 'react';
 import { useContext } from 'react';
 import { QuestionSelect } from './question-select';
 import { Question } from './question';
+import { QuestionResult } from './question-result';
 
 export const QuestionLayout: FC<{ questions_years: Awaited<ReturnType<typeof getQuestionsYears>> }> = ({ questions_years }) => {
   const { currentState, } = useContext(QuestionContext);
@@ -13,7 +14,7 @@ export const QuestionLayout: FC<{ questions_years: Awaited<ReturnType<typeof get
   return <>
     {currentState === 'select' ?
       <QuestionSelect questions_years={questions_years} />
-      : currentState === 'question' ? <Question /> : <>終了</>
+      : currentState === 'question' ? <Question /> : <QuestionResult />
     }
   </>;
 };
