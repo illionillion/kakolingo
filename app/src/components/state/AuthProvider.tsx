@@ -28,10 +28,9 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         await onSignout();
         return;
       }
+      setIsAuthenticating(false);
     } catch (error) {
       console.error('verify', error);
-    } finally {
-      setIsAuthenticating(false);
     }
   };
 
