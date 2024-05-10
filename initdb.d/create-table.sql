@@ -18,7 +18,8 @@ insert into users (user_name, display_name, user_email, password) values
 ('yutosei', 'ゆうとうせい', 'yutosei@email.com', SHA2('password', 256)),
 ('akolingo', 'あこりんご', 'akolingo@email.com', SHA2('password', 256)),
 ('hironosuke', 'ひろのすけ', 'hironosuke@email.com', SHA2('password', 256)),
-('kohe-penguin', 'こーへーぺんぎん', 'kohe-penguin@email.com', SHA2('password', 256));
+('kohe-penguin', 'こーへーぺんぎん', 'kohe-penguin@email.com', SHA2('password', 256)),
+('test-user', 'TEST', 'test@email.com', SHA2('password', 256));
 
 -- アクセストークンの管理テーブル
 CREATE TABLE access_tokens (
