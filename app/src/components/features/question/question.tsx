@@ -50,10 +50,15 @@ export const Question: FC = () => {
         ))}
       </Center>
     </VStack>
-    <VStack>
-      <Text fontSize="xl">分類</Text>
-      <Text fontSize="md">{currentQuestion.questionGenre}</Text>
-    </VStack>
+    <HStack>
+      <VStack>
+        <Text fontSize="xl">分類</Text>
+        <Text fontSize="md">{currentQuestion.questionGenre}</Text>
+      </VStack>
+      <Center>
+        <Button>ヒントを生成</Button>
+      </Center>
+    </HStack>
     <VStack>
       <Text fontSize="xl">正解</Text>
       {!isShowAnswer ?
