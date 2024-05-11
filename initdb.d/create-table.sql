@@ -31,6 +31,14 @@ CREATE TABLE access_tokens (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+-- 問題数集計テーブル
+create table answer_count (
+    user_id INT NOT NULL,
+    count INT NOT NULL,
+    issue_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
 -- 過去問年度テーブル
 create table past_questions_years (
     question_year_id int auto_increment primary key,

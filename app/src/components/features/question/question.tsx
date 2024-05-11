@@ -1,9 +1,11 @@
+import { StateContext } from '@/components/state/AuthContext';
 import { QuestionContext } from '@/components/state/QuestionContext';
 import { Button, Center, Container, HStack, Link, Text, VStack, useBoolean } from '@yamada-ui/react';
 import type { FC } from 'react';
 import { useContext, useState } from 'react';
 
 export const Question: FC = () => {
+  const { userData } = useContext(StateContext);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const { questions, questionsYears, questionsResults, setQuestionsResults, setCurrentState } = useContext(QuestionContext);
   const currentQuestion = questions[currentIndex];
@@ -32,7 +34,25 @@ export const Question: FC = () => {
     hideAnswer();
   };
 
-  const handleEnd = () => {
+  const handleEnd = async () => {
+    // ランキングのデータ更新
+    const request = await fetch('/api/ranking', {
+      method: 'POST',
+      body: JSON.stringify({
+        userId: userData?.userId,
+        count: questions.length
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userData?.token}`,
+      }
+    });
+    if (request.ok) {
+      console.log('ランキング更新成功');
+    } else {
+      console.log('ランキング更新失敗');
+      
+    }
     setCurrentState('finish');
   };
 
