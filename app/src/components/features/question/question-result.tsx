@@ -51,7 +51,7 @@ export const QuestionResult: FC = () => {
                   <Tr key={i}>
                     <Td>{i + 1}</Td>
                     <Td><Link isExternal href={question.questionUrl}>{question.name}</Link></Td>
-                    <Td>{questionsResults[i].selectedKey}</Td>
+                    <Td>{questionsResults[i].selectedKey ? questionsResults[i].selectedKey : '-'}</Td>
                     <Td>{questionsResults[i].isCorrected ? '正' : '誤'}</Td>
                   </Tr>
                 ))

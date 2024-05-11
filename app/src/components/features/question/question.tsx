@@ -55,14 +55,13 @@ export const Question: FC = () => {
       <Text fontSize="md">{currentQuestion.questionGenre}</Text>
     </VStack>
     <VStack>
+      <Text fontSize="xl">正解</Text>
       {!isShowAnswer ?
         <>
-          <Text fontSize="xl">正解</Text>
           <Button w="fit-content" onClick={handleShowAnswer}>正解を表示する</Button>
         </>
         :
         <>
-          <Text fontSize="xl">答え</Text>
           <HStack>
             <Text fontSize="md">{currentQuestion.correctOptionKey}</Text>
             <Text fontSize="md" color={isCorrect ? 'success' : 'danger'}>{isCorrect ? '正解' : '不正解'}</Text>
