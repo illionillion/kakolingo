@@ -1,7 +1,7 @@
 'use client';
 import { QuestionContext } from '@/components/state/QuestionContext';
 import { Button, Center, Container, Link, NativeTable, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@yamada-ui/react';
-import type { FC} from 'react';
+import type { FC } from 'react';
 import { useContext } from 'react';
 
 export const QuestionResult: FC = () => {
@@ -58,7 +58,7 @@ export const QuestionResult: FC = () => {
               }
             </Tbody>
           </NativeTable>
-        </TableContainer>;
+        </TableContainer>
       </VStack>
       <Center gap="md">
         <Button onClick={handleRestart}>もう一度解く</Button>
