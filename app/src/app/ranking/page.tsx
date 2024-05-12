@@ -28,7 +28,7 @@ const Page: NextPage = async () => {
             {
               ranking.map((v, i) => (
                 <Tr key={i}>
-                  <Td>{i + 1}</Td>
+                  <Td>{v.rank}</Td>
                   <Td>{v.displayName}</Td>
                   <Td>{v.totalCount}</Td>
                 </Tr>

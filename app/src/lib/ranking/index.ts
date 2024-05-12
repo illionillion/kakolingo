@@ -16,18 +16,30 @@ FROM
 GROUP BY u.user_id
 ORDER BY total_count DESC;`;
     const [result] = (await connection.execute(query)) as RowDataPacket[];
-    const ranking = (result as {
-      user_id: number;
-      user_name: string;
-      display_name: string;
-      total_count: number;
-    }[]).map(v => ({
+    const ranking = (
+      result as {
+        user_id: number;
+        user_name: string;
+        display_name: string;
+        total_count: number;
+      }[]
+    ).map((v) => ({
       userId: v.user_id,
       userName: v.user_name,
       displayName: v.display_name,
-      totalCount: v.total_count
+      totalCount: v.total_count,
     }));
-    return ranking;
+    // カウント数を被りないように Set に入れる
+    const uniqueCounts = Array.from(
+      new Set(ranking.map((v) => v.totalCount)),
+    ).sort((a, b) => b - a);
+    const rankedUsers = ranking.map((user) => {
+      const userRank =
+        uniqueCounts.findIndex((count) => count === user.totalCount) + 1;
+      return { ...user, rank: userRank };
+    });
+
+    return rankedUsers;
   } catch (error) {
     console.error('getRanking error:', error);
     return [];
