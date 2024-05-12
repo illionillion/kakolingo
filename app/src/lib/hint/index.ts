@@ -43,7 +43,7 @@ ${question.correct_option_key}
     const response = await request.json();
 
     if (response && response.choices && response.choices.length > 0) {
-      return response.choices[0].message.content;
+      return response.choices[0].message.content as string;
     } else {
       return 'ヒントの生成に失敗しました';
     }
