@@ -1,6 +1,6 @@
 import { StateContext } from '@/components/state/AuthContext';
 import { QuestionContext } from '@/components/state/QuestionContext';
-import { Button, Center, Container, HStack, Link, Text, VStack, useBoolean } from '@yamada-ui/react';
+import { Button, Center, Container, HStack, Link, SkeletonText, Text, VStack, useBoolean } from '@yamada-ui/react';
 import type { FC } from 'react';
 import { useContext, useState } from 'react';
 
@@ -13,6 +13,7 @@ export const Question: FC = () => {
   const options = currentQuestion.options;
   const [isShowAnswer, { on: showAnswer, off: hideAnswer }] = useBoolean();
   const [isCorrect, { on: correct, off: invalid }] = useBoolean();
+  const [isGenerating, { on: start, off: end }] = useBoolean();
   const [hint, setHint] = useState<string>('');
   const handleShowAnswer = () => {
     showAnswer();
@@ -30,6 +31,7 @@ export const Question: FC = () => {
     showAnswer();
   };
   const getHint = async () => {
+    start();
     const request = await fetch('/api/hint', {
       method: 'POST',
       body: JSON.stringify({
@@ -43,10 +45,12 @@ export const Question: FC = () => {
     });
     if (!request.ok) {
       console.log('失敗');
+      end();
       return;
     }
     const response = await request.json();
     setHint(response.hint);
+    end();
   };
   const handleNext = () => {
     setCurrentIndex(prev => prev + 1);
@@ -71,7 +75,6 @@ export const Question: FC = () => {
       console.log('ランキング更新成功');
     } else {
       console.log('ランキング更新失敗');
-      
     }
     setCurrentState('finish');
   };
@@ -97,7 +100,9 @@ export const Question: FC = () => {
       </VStack>
       <VStack>
         <Button ml="auto" w="fit-content" onClick={getHint}>ヒントを生成</Button>
-        {!!hint && <Text>{hint}</Text>}
+        {isGenerating ? <SkeletonText /> :
+          !!hint && <Text>{hint}</Text>
+        }
       </VStack>
     </HStack>
     <VStack>
