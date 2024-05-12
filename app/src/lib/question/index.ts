@@ -110,6 +110,51 @@ export const getQuestions = async (
   }
 };
 
+export const getQuestion = async (
+  questionId: number
+) => {
+  let connection;
+  try {
+    connection = await mysql_connection();
+    const query = `SELECT 
+      question_id,
+      question_content,
+      question_genre,
+      question_number,
+      question_url,
+      question_year_id,
+      correct_option_key
+  FROM 
+    past_questions
+  WHERE question_id = ?`;
+
+    const [result] = (await connection.execute(
+      query,
+      [questionId]
+    )) as RowDataPacket[];
+
+    const question = {
+      ...(result as {
+        question_id: number;
+        question_content: string;
+        question_genre: string;
+        question_number: number;
+        question_url: string;
+        question_year_id: number;
+        correct_option_key: string;
+      }[])[0],
+      options: await getOptions(questionId),
+    };
+    
+    return question;
+  } catch (error) {
+    console.error('GetQuestions error:', error);
+    return undefined;
+  } finally {
+    if (connection) connection.destroy();
+  }
+};
+
 export const getOptions = async (questionId: number) => {
   let connection;
   try {

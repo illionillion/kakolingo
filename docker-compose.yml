@@ -15,6 +15,7 @@ services:
       - DB_USER=${MYSQL_USER}
       - DB_PASSWORD=${MYSQL_PASSWORD}
       - DB_DATABASE=${MYSQL_DATABASE}
+      - API_KEY=${API_KEY}
     depends_on:
       - mysql
   mysql:

@@ -13,6 +13,7 @@ export const Question: FC = () => {
   const options = currentQuestion.options;
   const [isShowAnswer, { on: showAnswer, off: hideAnswer }] = useBoolean();
   const [isCorrect, { on: correct, off: invalid }] = useBoolean();
+  const [hint, setHint] = useState<string>('');
   const handleShowAnswer = () => {
     showAnswer();
     invalid();
@@ -28,9 +29,28 @@ export const Question: FC = () => {
     }
     showAnswer();
   };
-
+  const getHint = async () => {
+    const request = await fetch('/api/hint', {
+      method: 'POST',
+      body: JSON.stringify({
+        userId: userData?.userId,
+        questionId: currentQuestion.questionId
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userData?.token}`,
+      }
+    });
+    if (!request.ok) {
+      console.log('失敗');
+      return;
+    }
+    const response = await request.json();
+    setHint(response.hint);
+  };
   const handleNext = () => {
     setCurrentIndex(prev => prev + 1);
+    setHint('');
     hideAnswer();
   };
 
@@ -75,9 +95,10 @@ export const Question: FC = () => {
         <Text fontSize="xl">分類</Text>
         <Text fontSize="md">{currentQuestion.questionGenre}</Text>
       </VStack>
-      <Center>
-        <Button>ヒントを生成</Button>
-      </Center>
+      <VStack>
+        <Button ml="auto" w="fit-content" onClick={getHint}>ヒントを生成</Button>
+        {!!hint && <Text>{hint}</Text>}
+      </VStack>
     </HStack>
     <VStack>
       <Text fontSize="xl">正解</Text>

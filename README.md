@@ -9,6 +9,7 @@ MYSQL_PASSWORD=password
 MYSQL_DATABASE=my_db
 NEXTJS_PORT=8080
 ADMIN_PORT=9090
+API_KEY=your-api-key
 ```
 
 2. 必要なライブラリをインストール
