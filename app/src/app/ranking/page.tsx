@@ -1,6 +1,6 @@
 import { AuthProvider } from '@/components/state/AuthProvider';
 import { getRanking } from '@/lib/ranking';
-import { Container, NativeTable, TableContainer, Tbody, Td, Th, Thead, Tr } from '@yamada-ui/react';
+import { Container, Heading, NativeTable, TableContainer, Tbody, Td, Th, Thead, Tr } from '@yamada-ui/react';
 import type { Metadata, NextPage } from 'next';
 
 export const metadata: Metadata = {
@@ -14,6 +14,7 @@ const Page: NextPage = async () => {
 
   return <AuthProvider>
     <Container maxW="8xl" m="auto">
+      <Heading>週間ランキング</Heading>
       <TableContainer>
         <NativeTable>
           <Thead>
