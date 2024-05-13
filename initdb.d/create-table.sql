@@ -39,6 +39,15 @@ create table answer_count (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+insert into answer_count (user_id, count) values
+(1, 5),
+(1, 1),
+(2, 3),
+(2, 1),
+(3, 4),
+(4, 3),
+(5, 1);
+
 -- 過去問年度テーブル
 create table past_questions_years (
     question_year_id int auto_increment primary key,
