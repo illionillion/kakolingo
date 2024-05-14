@@ -1,6 +1,6 @@
 import { StateContext } from '@/components/state/AuthContext';
 import { QuestionContext } from '@/components/state/QuestionContext';
-import { Button, Center, Container, HStack, Link, SkeletonText, Text, VStack, useBoolean } from '@yamada-ui/react';
+import { Button, Center, Container, Fade, HStack, Link, SkeletonText, Text, VStack, useBoolean } from '@yamada-ui/react';
 import type { FC } from 'react';
 import { useContext, useState } from 'react';
 
@@ -112,16 +112,18 @@ export const Question: FC = () => {
           <Button w="fit-content" onClick={handleShowAnswer}>正解を表示する</Button>
         </>
         :
-        <>
-          <HStack>
-            <Text fontSize="md">{currentQuestion.correctOptionKey}</Text>
-            <Text fontSize="md" color={isCorrect ? 'success' : 'danger'}>{isCorrect ? '正解' : '不正解'}</Text>
-          </HStack>
-          <Text fontSize="md">あなたの解答：{questionsResults[currentIndex].selectedKey ? questionsResults[currentIndex].selectedKey : '-'}</Text>
-          <Text fontSize="md">
-            <Link isExternal href={currentQuestion.questionUrl}>解説を見る</Link>
-          </Text>
-        </>
+        <Fade isOpen={isShowAnswer} duration={0.5}>
+          <VStack>
+            <HStack>
+              <Text fontSize="md">{currentQuestion.correctOptionKey}</Text>
+              <Text fontSize="md" color={isCorrect ? 'success' : 'danger'}>{isCorrect ? '正解' : '不正解'}</Text>
+            </HStack>
+            <Text fontSize="md">あなたの解答：{questionsResults[currentIndex].selectedKey ? questionsResults[currentIndex].selectedKey : '-'}</Text>
+            <Text fontSize="md">
+              <Link isExternal href={currentQuestion.questionUrl}>解説を見る</Link>
+            </Text>
+          </VStack>
+        </Fade>
       }
     </VStack>
     {isShowAnswer && <Center>
