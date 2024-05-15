@@ -49,8 +49,8 @@ const Page: NextPage = async () => {
                       })(v.rank)}
                     </Center>
                   </Td>
-                  <Td>{v.displayName}</Td>
-                  <Td>{v.totalCount}</Td>
+                  <Td><Center w="fit-content" h="full">{v.displayName}</Center></Td>
+                  <Td><Center w="fit-content" h="full">{v.totalCount}</Center></Td>
                 </Tr>
               ))
             }
