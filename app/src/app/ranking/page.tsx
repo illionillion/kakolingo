@@ -1,6 +1,6 @@
 import { AuthProvider } from '@/components/state/AuthProvider';
 import { getRanking } from '@/lib/ranking';
-import { Container, Heading, NativeTable, TableContainer, Tbody, Td, Th, Thead, Tr } from '@yamada-ui/react';
+import { Center, Container, Heading, Image, NativeTable, TableContainer, Tbody, Td, Th, Thead, Tr } from '@yamada-ui/react';
 import type { Metadata, NextPage } from 'next';
 
 export const metadata: Metadata = {
@@ -29,7 +29,30 @@ const Page: NextPage = async () => {
             {
               ranking.map((v, i) => (
                 <Tr key={i}>
-                  <Td>{v.rank}</Td>
+                  <Td>
+                    <Center w="12" h="12">
+                      {((rank) => {
+                        switch (rank) {
+                          case 1: {
+
+                            return <Image src="/first-rank.png" w="full" />;
+                          }
+                          case 2: {
+
+                            return <Image src="/second-rank.png" w="full" />;
+                          }
+                          case 3: {
+
+                            return <Image src="/third-rank.png" w="full" />;
+                          }
+
+                          default: {
+                            return rank;
+                          }
+                        }
+                      })(v.rank)}
+                    </Center>
+                  </Td>
                   <Td>{v.displayName}</Td>
                   <Td>{v.totalCount}</Td>
                 </Tr>
