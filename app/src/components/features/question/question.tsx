@@ -101,7 +101,9 @@ export const Question: FC = () => {
       <VStack>
         <Button ml="auto" w="fit-content" onClick={getHint}>ヒントを生成</Button>
         {isGenerating ? <SkeletonText /> :
-          !!hint && <Text>{hint}</Text>
+          <Fade isOpen={!!hint} duration={0.5}>
+            <Text>{hint}</Text>
+          </Fade>
         }
       </VStack>
     </HStack>
