@@ -34,18 +34,14 @@ const Page: NextPage = async () => {
                       {((rank) => {
                         switch (rank) {
                           case 1: {
-
                             return <Image src="/first-rank.png" w="full" />;
                           }
                           case 2: {
-
                             return <Image src="/second-rank.png" w="full" />;
                           }
                           case 3: {
-
                             return <Image src="/third-rank.png" w="full" />;
                           }
-
                           default: {
                             return rank;
                           }
