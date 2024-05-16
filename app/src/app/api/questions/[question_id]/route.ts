@@ -1,5 +1,5 @@
-import { getOptions } from '@/lib/question';
-import type { NextRequest} from 'next/server';
+import { getQuestion } from '@/lib/question';
+import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 export const GET = async (
@@ -18,10 +18,9 @@ export const GET = async (
     );
   }
 
-  const options = await getOptions(question_id);
+  const question = await getQuestion(question_id);
 
   return NextResponse.json({
-    data: options,
-    total: options.length,
+    data: question,
   });
 };
