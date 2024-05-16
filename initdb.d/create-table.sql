@@ -8,6 +8,7 @@ create table users (
     display_name varchar(255) not null,
     user_email varchar(255) not null unique,
     password varchar(255) not null,
+    test_day DATE,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
