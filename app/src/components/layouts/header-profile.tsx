@@ -1,19 +1,33 @@
 'use client';
 
-import { Box, Button, Center, GridItem, HStack, Image, Link as UILink, Popover, PopoverBody, PopoverContent, PopoverHeader, PopoverTrigger, SimpleGrid, Text, ui } from '@yamada-ui/react';
+import { Box, Button, Center, GridItem, HStack, Image, Link as UILink, Popover, PopoverBody, PopoverContent, PopoverHeader, PopoverTrigger, SimpleGrid, Text, ui, useAsync } from '@yamada-ui/react';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import { StateContext } from '../state/AuthContext';
 import Link from 'next/link';
+import type { getUser } from '@/lib/users';
 
 export const HeaderProfile: FC = () => {
   const { onSignout, setIsAuthenticating, isAuthenticating, userData } = useContext(StateContext);
+  const { value } = useAsync(async () => {
+    const response = await fetch(`/api/users/${userData?.userName}`, {
+      cache: 'no-cache'
+    });
+    const { data } = await response.json() as { data: Awaited<ReturnType<typeof getUser>> };
+
+    return { displayName: data?.displayName, testDay: data?.testDay };
+
+  });
   const handleSignout = () => {
     onSignout();
     setIsAuthenticating(true);
   };
   return !isAuthenticating && <HStack>
-    <Text fontSize="xl">試験まであと1000日</Text>
+    {
+      value?.testDay ?
+        <Text fontSize="xl">試験まであと${value?.testDay ?? '-'}日</Text> :
+        <Text w="xs" bgColor="#10B990" p="xs" >受験予定日を設定するとカウントダウンが表示されます</Text>
+    }
     <Box w="12">
       <Popover>
         <PopoverTrigger>
@@ -26,7 +40,7 @@ export const HeaderProfile: FC = () => {
           <PopoverHeader>メニュー</PopoverHeader>
           <PopoverBody>
             <Box>
-              <Text>{userData?.userName}さん</Text>
+              <Text>{value?.displayName} さん</Text>
               <Text>〇〇日連続ログイン</Text>
             </Box>
             <SimpleGrid w="full" columns={{
@@ -34,7 +48,7 @@ export const HeaderProfile: FC = () => {
               md: 1
             }} >
               <GridItem p="md" rounded="4" textAlign="center">
-                <UILink display="flex" flexDir="column" gap="md" href='/' _hover={{textDecor: 'none'}} as={Link} alignContent="space-between" h="full">
+                <UILink display="flex" flexDir="column" gap="md" href='/' _hover={{ textDecor: 'none' }} as={Link} alignContent="space-between" h="full">
                   <Box w="12" m="auto">
                     <Image src='/quest-icon.png' w="full" />
                   </Box>
@@ -43,7 +57,7 @@ export const HeaderProfile: FC = () => {
               </GridItem>
 
               <GridItem p="md" rounded="4" textAlign="center">
-                <UILink display="flex" flexDir="column" gap="md" href='/ranking' _hover={{textDecor: 'none'}} as={Link} alignContent="space-between" h="full">
+                <UILink display="flex" flexDir="column" gap="md" href='/ranking' _hover={{ textDecor: 'none' }} as={Link} alignContent="space-between" h="full">
                   <Box w="12" m="auto">
                     <Image src='/ranking-icon.png' w="full" />
                   </Box>
@@ -52,7 +66,7 @@ export const HeaderProfile: FC = () => {
               </GridItem>
 
               <GridItem p="md" rounded="4" textAlign="center">
-                <UILink display="flex" flexDir="column" gap="md" href='/setting' _hover={{textDecor: 'none'}} as={Link} alignContent="space-between" h="full">
+                <UILink display="flex" flexDir="column" gap="md" href='/setting' _hover={{ textDecor: 'none' }} as={Link} alignContent="space-between" h="full">
                   <Box w="12" m="auto">
                     <Image src='/setting-icon.png' w="full" />
                   </Box>
