@@ -1,13 +1,17 @@
 import { AuthProvider } from '@/components/state/AuthProvider';
-import { Box } from '@yamada-ui/react';
-import type { NextPage } from 'next';
+import type { Metadata, NextPage } from 'next';
+import { SettingForm } from '@/components/features/setting';
 
-const Setting:NextPage=()=>{
-  return<AuthProvider>
-  <Box color="red.400">セッティング画面 box test</Box>
+export const metadata: Metadata = {
+  title: 'カコリンゴ-設定',
+  description: 'カコリンゴ-設定',
+};
 
-</AuthProvider>;
-}; 
+const Setting: NextPage = () => {
+  return <AuthProvider>
+    <SettingForm />
+  </AuthProvider>;
+};
 
 export default Setting;
 
