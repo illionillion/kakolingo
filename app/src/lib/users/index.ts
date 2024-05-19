@@ -27,3 +27,29 @@ export const getUser = async (userName: string) => {
     if (connection) connection.destroy();
   }
 };
+
+export const updateUser = async (userId: number, displayName: string, testDay: string) => {
+  let connection;
+  try {
+    connection = await mysql_connection();
+    
+    // クエリ内でSTR_TO_DATE関数を使用して日付を変換
+    const query = `
+      UPDATE users
+      SET display_name = ?,
+          test_day = IF(? IS NOT NULL, STR_TO_DATE(?, '%Y-%m-%dT%H:%i:%s.%fZ'), NULL)
+      WHERE user_id = ?
+    `;
+    const [result] = (await connection.execute(query, [displayName, testDay, testDay, userId])) as RowDataPacket[];
+    
+    if (result.affectedRows === 0) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error('updateUser error:', error);
+    return false;
+  } finally {
+    if (connection) connection.destroy();
+  }
+};

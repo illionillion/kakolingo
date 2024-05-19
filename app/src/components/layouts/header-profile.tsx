@@ -7,6 +7,27 @@ import { StateContext } from '../state/AuthContext';
 import Link from 'next/link';
 import type { getUser } from '@/lib/users';
 
+const calculateDaysFromNow = (dateString: string): number => {
+  // 受け取った日付文字列をDateオブジェクトに変換
+  const inputDate = new Date(dateString);
+  
+  // 現在の日付を取得
+  const currentDate = new Date();
+  
+  // 両日付のタイムスタンプを取得
+  const inputTime = inputDate.getTime();
+  const currentTime = currentDate.getTime();
+  
+  // タイムスタンプの差をミリ秒単位で計算
+  const timeDifference = currentTime - inputTime;
+  
+  // ミリ秒を日に変換（1日 = 24時間 * 60分 * 60秒 * 1000ミリ秒）
+  const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+  
+  // 日数の差を整数の正の値にして返す
+  return Math.abs(Math.floor(daysDifference));
+};
+
 export const HeaderProfile: FC = () => {
   const { onSignout, setIsAuthenticating, isAuthenticating, userData } = useContext(StateContext);
   const { value } = useAsync(async () => {
@@ -25,7 +46,7 @@ export const HeaderProfile: FC = () => {
   return !isAuthenticating && <HStack>
     {
       value?.testDay ?
-        <Text fontSize="xl">試験まであと${value?.testDay ?? '-'}日</Text> :
+        <Text fontSize="xl">試験まであと{calculateDaysFromNow(value.testDay)}日</Text> :
         <Text w="xs" bgColor="#10B990" p="xs" >受験予定日を設定するとカウントダウンが表示されます</Text>
     }
     <Box w="12">
