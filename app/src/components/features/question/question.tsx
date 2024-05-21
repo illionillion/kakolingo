@@ -2,7 +2,8 @@ import { StateContext } from '@/components/state/AuthContext';
 import { QuestionContext } from '@/components/state/QuestionContext';
 import { Button, Center, Container, Fade, HStack, Link, SkeletonText, Text, VStack, useBoolean } from '@yamada-ui/react';
 import type { FC } from 'react';
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef } from 'react';
+import {Circle, X} from 'lucide-react'
 
 export const Question: FC = () => {
   const { userData } = useContext(StateContext);
@@ -114,11 +115,12 @@ export const Question: FC = () => {
           <Button w="fit-content" onClick={handleShowAnswer}>正解を表示する</Button>
         </>
         :
-        <Fade isOpen={isShowAnswer} duration={0.5}>
+        
+        <Fade isOpen={isShowAnswer} duration={3.0}>
           <VStack>
             <HStack>
               <Text fontSize="md">{currentQuestion.correctOptionKey}</Text>
-              <Text fontSize="md" color={isCorrect ? 'success' : 'danger'}>{isCorrect ? '正解' : '不正解'}</Text>
+              <Text fontSize="md" color={isCorrect ? 'success' : 'danger'}>{isCorrect ? <Circle />: <X />}</Text>
             </HStack>
             <Text fontSize="md">あなたの解答：{questionsResults[currentIndex].selectedKey ? questionsResults[currentIndex].selectedKey : '-'}</Text>
             <Text fontSize="md">
