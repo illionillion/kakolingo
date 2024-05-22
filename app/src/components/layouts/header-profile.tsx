@@ -68,7 +68,7 @@ export const HeaderProfile: FC = () => {
               md: 1
             }} >
               <GridItem p="md" rounded="4" textAlign="center">
-                <UILink display="flex" flexDir="column" gap="md" href='/' _hover={{ textDecor: 'none' }} as={Link} alignContent="space-between" h="full">
+                <UILink display="flex" flexDir="column" gap="md" href='/quest' _hover={{ textDecor: 'none' }} as={Link} alignContent="space-between" h="full">
                   <Box w="12" m="auto">
                     <Image src='/quest-icon.png' w="full" />
                   </Box>
