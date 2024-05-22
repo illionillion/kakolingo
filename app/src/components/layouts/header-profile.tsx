@@ -62,7 +62,6 @@ export const HeaderProfile: FC = () => {
           <PopoverBody>
             <Box>
               <Text>{value?.displayName} さん</Text>
-              <Text>〇〇日連続ログイン</Text>
             </Box>
             <SimpleGrid w="full" columns={{
               base: 2,
