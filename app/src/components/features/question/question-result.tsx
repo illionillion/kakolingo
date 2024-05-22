@@ -1,8 +1,9 @@
 'use client';
 import { QuestionContext } from '@/components/state/QuestionContext';
-import { Button, Center, Container, Link, NativeTable, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@yamada-ui/react';
+import { Button, Center, Container, Icon, Link, NativeTable, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@yamada-ui/react';
 import type { FC } from 'react';
 import { useContext } from 'react';
+import {Circle, X} from 'lucide-react';
 
 export const QuestionResult: FC = () => {
   const { questionsResults, questions, questionsYears, setCurrentState, setQuestions, setQuestionsYears, setQuestionsResults } = useContext(QuestionContext);
@@ -52,7 +53,7 @@ export const QuestionResult: FC = () => {
                     <Td>{i + 1}</Td>
                     <Td><Link isExternal href={question.questionUrl}>{question.name}</Link></Td>
                     <Td>{questionsResults[i].selectedKey ? questionsResults[i].selectedKey : '-'}</Td>
-                    <Td>{questionsResults[i].isCorrected ? '正' : '誤'}</Td>
+                    <Td color={questionsResults[i].isCorrected ? 'success' : 'danger'}>{questionsResults[i].isCorrected ? '正' : '誤'}</Td>
                   </Tr>
                 ))
               }
