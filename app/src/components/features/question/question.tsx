@@ -116,7 +116,7 @@ export const Question: FC = () => {
         </>
         :
         
-        <Fade isOpen={isShowAnswer} duration={3.0}>
+        <Fade isOpen={isShowAnswer} duration={0.5}>
           <VStack>
             <HStack>
               <Text fontSize="md">{currentQuestion.correctOptionKey}</Text>
