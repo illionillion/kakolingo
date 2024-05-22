@@ -2,8 +2,8 @@ import { StateContext } from '@/components/state/AuthContext';
 import { QuestionContext } from '@/components/state/QuestionContext';
 import { Button, Center, Container, Fade, HStack, Icon, Link, SkeletonText, Text, VStack, useBoolean } from '@yamada-ui/react';
 import type { FC } from 'react';
-import { useContext, useState, useRef } from 'react';
-import {Circle, X} from 'lucide-react'
+import { useContext, useState } from 'react';
+import {Circle, X} from 'lucide-react';
 
 export const Question: FC = () => {
   const { userData } = useContext(StateContext);
