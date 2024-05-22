@@ -115,7 +115,6 @@ export const Question: FC = () => {
           <Button w="fit-content" onClick={handleShowAnswer}>正解を表示する</Button>
         </>
         :
-        
         <Fade isOpen={isShowAnswer} duration={0.5}>
           <VStack>
             <HStack>
