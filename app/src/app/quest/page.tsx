@@ -1,5 +1,5 @@
 import { AuthProvider } from '@/components/state/AuthProvider';
-import { Card, CardBody, CardHeader, Center, Container, Heading, Image, Progress, VStack } from '@yamada-ui/react';
+import { Card, CardBody, CardHeader, Center, Container, HStack, Heading, Image, Progress, Text, VStack } from '@yamada-ui/react';
 import type { Metadata, NextPage } from 'next';
 export const metadata: Metadata = {
   title: 'カコリンゴ-デイリークエスト',
@@ -9,6 +9,9 @@ const QuestPage: NextPage = async () => {
   return <AuthProvider>
     <Container maxW="8xl" m="auto">
       <Heading>デイリークエスト</Heading>
+      <HStack justifyContent="end">
+        <Text>残り：12時間</Text>
+      </HStack>
       <Card flexDir="row">
         <VStack>
           <CardHeader fontSize="lg">1. 5問問題を解こう！！</CardHeader>
