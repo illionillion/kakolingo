@@ -37,7 +37,7 @@ export const updateUser = async (userId: number, displayName: string, testDay: s
     const query = `
       UPDATE users
       SET display_name = ?,
-          test_day = IF(? IS NOT NULL, STR_TO_DATE(?, '%Y-%m-%dT%H:%i:%s.%fZ'), NULL)
+          test_day = IF(? IS NOT NULL, CONVERT_TZ(STR_TO_DATE(?, '%Y-%m-%dT%H:%i:%s.%fZ'), '+00:00', @@session.time_zone), NULL)
       WHERE user_id = ?
     `;
     const [result] = (await connection.execute(query, [displayName, testDay, testDay, userId])) as RowDataPacket[];
