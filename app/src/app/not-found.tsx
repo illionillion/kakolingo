@@ -1,9 +1,9 @@
-import { Button, Container, Heading, Text, VStack } from "@yamada-ui/react";
-import { NextPage } from "next";
-import Link from "next/link";
+import { Button, Container, Heading, Text, VStack } from '@yamada-ui/react';
+import type { NextPage } from 'next';
+import Link from 'next/link';
 
 const NotFound :NextPage = () => {
-    return <Container>
+  return <Container>
     <VStack alignItems="center" flexGrow={1}>
       <Text fontSize="5xl" fontWeight="bold">
         404
@@ -24,7 +24,7 @@ const NotFound :NextPage = () => {
         トップページへ戻る
       </Button>
     </VStack>
-    </Container>
-}
+  </Container>;
+};
 
-export default NotFound
+export default NotFound;
