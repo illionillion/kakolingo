@@ -20,7 +20,7 @@ ${question.options.map((option) => `${option.optionKey}: ${option.optionContent}
 
 正解
 ${question.correct_option_key}
-        `;
+`;
 
     // ヒントを生成
     const request = await fetch('https://api.openai.com/v1/chat/completions', {
