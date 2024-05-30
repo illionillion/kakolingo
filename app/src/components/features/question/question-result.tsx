@@ -29,7 +29,7 @@ export const QuestionResult: FC = () => {
         <Text fontSize="xl">選択問題を一巡しました</Text>
         <Center gap="lg" flexWrap="wrap">
           <Text fontSize="2xl">正解数：{correctCount}問 / 出題数：{questionsResults.length}問</Text>
-          <Text fontSize="2xl">正解率：{(correctCount / questionsResults.length) * 100}%</Text>
+          <Text fontSize="2xl">正解率：{((correctCount / questionsResults.length) * 100).toFixed(2)}%</Text>
         </Center>
       </VStack>
       <VStack>
